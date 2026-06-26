@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quintal Aroeira — Brand Book</title>
+<link rel="icon" href="assets/simbolo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Mulish:ital,wght@0,300..800;1,400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  @font-face{font-family:'Antropos';src:url('assets/fonts/antropos.ttf') format('truetype');font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-sans);color:var(--ink);background:var(--bg);line-height:var(--lh-base);-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background-image:var(--paper-noise);opacity:.5;pointer-events:none}
+
+  /* ---------- layout shell ---------- */
+  .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+  nav.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:var(--space-6) var(--space-5);background:var(--surface);border-right:1px solid var(--border)}
+  nav.side .brand{display:flex;align-items:center;gap:10px;margin-bottom:var(--space-6)}
+  nav.side .brand img{width:34px}
+  nav.side .brand b{font-family:var(--font-display);font-size:1.15rem;font-weight:400;line-height:1}
+  nav.side a{display:block;color:var(--ink-soft);text-decoration:none;font-size:var(--fs-sm);padding:7px 10px;border-radius:var(--radius-sm);transition:background var(--dur-fast) var(--ease-gentle),color var(--dur-fast)}
+  nav.side a .n{font-variant-numeric:tabular-nums;color:var(--ink-mute);margin-right:8px;font-size:.78rem}
+  nav.side a:hover{background:var(--accent-wash);color:var(--ink)}
+  main{min-width:0}
+  .chap{padding:var(--space-12) var(--space-10);max-width:1020px;border-bottom:1px solid var(--border);scroll-margin-top:0}
+  @media(max-width:860px){.app{grid-template-columns:1fr}nav.side{position:static;height:auto;display:flex;flex-wrap:wrap;gap:4px}.chap{padding:var(--space-8) var(--space-5)}}
+
+  .kicker{font-weight:700;letter-spacing:var(--tracking-wide);text-transform:uppercase;font-size:var(--fs-xs);color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:var(--space-4)}
+  .kicker::before{content:"";width:26px;height:1.5px;background:var(--accent)}
+  h1{font-family:var(--font-display);font-weight:400;font-size:var(--fs-5xl);line-height:var(--lh-tight)}
+  h2{font-family:var(--font-serif);font-weight:400;font-size:var(--fs-3xl);letter-spacing:var(--tracking-tight);line-height:var(--lh-snug);margin-bottom:var(--space-3)}
+  h3{font-weight:800;font-size:var(--fs-sm);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:var(--space-6) 0 var(--space-3)}
+  p{max-width:var(--container-prose);margin-bottom:var(--space-3)}
+  p.lead{font-family:var(--font-serif);font-weight:300;font-size:var(--fs-lg);line-height:var(--lh-loose);color:#5b4636;max-width:64ch}
+  [data-theme="escuro"] p.lead{color:var(--ink-soft)}
+  strong{color:var(--ink)}
+  .muted{color:var(--ink-soft)}
+  .grid{display:grid;gap:var(--space-4)}
+  .cols-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .cols-3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-5)}
+  .pill{display:inline-block;font-size:var(--fs-xs);font-weight:700;padding:4px 12px;border-radius:var(--radius-pill);background:var(--folha-100);color:var(--folha-700)}
+
+  /* ---------- 00 capa ---------- */
+  #capa{min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:var(--space-5);position:relative;overflow:hidden;background:radial-gradient(120% 90% at 80% 10%,#F7E9E2 0%,transparent 55%),radial-gradient(90% 80% at 10% 90%,#EFEAD8 0%,transparent 50%),var(--linho)}
+  #capa .blob{position:absolute;border-radius:50%;filter:blur(46px);opacity:.5;z-index:0}
+  #capa .b1{width:420px;height:420px;background:var(--baga-300);top:-90px;right:-60px}
+  #capa .b2{width:360px;height:360px;background:var(--ocre-300);bottom:-120px;left:-80px}
+  #capa .b3{width:300px;height:300px;background:var(--folha-300);top:40%;left:55%}
+  #capa>*{position:relative;z-index:1}
+  #capa .symwrap{width:120px}
+  #capa .wm{height:74px;margin:6px 0}
+  #capa .tag{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:var(--fs-xl);color:var(--ink-soft)}
+  #capa .meta{font-size:var(--fs-sm);color:var(--ink-mute);letter-spacing:.04em;margin-top:var(--space-4)}
+
+  /* motion — balanço enraizado: planta ao vento leve, pivô na base, lento e assimétrico */
+  .float{transform-origin:50% 94%;animation:sway 11s cubic-bezier(.37,0,.63,1) infinite;will-change:transform}
+  @keyframes sway{
+    0%{transform:rotate(-1.4deg) translateY(0) scale(1)}
+    26%{transform:rotate(.7deg) translateY(-1.5px) scale(1.006)}
+    52%{transform:rotate(1.5deg) translateY(-2.5px) scale(1.012)}
+    74%{transform:rotate(.1deg) translateY(-1px) scale(1.006)}
+    100%{transform:rotate(-1.4deg) translateY(0) scale(1)}
+  }
+  .breathe{animation:br calc(var(--dur-ambient) + 4s) ease-in-out infinite}
+  @keyframes br{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.06);opacity:.6}}
+  [data-motion="paused"] *{animation-play-state:paused!important}
+
+  /* ESCRITA — o wordmark se escreve à mão (reveal esquerda→direita, sequencial) */
+  #capa .hero-mark{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:4px 0 6px}
+  #capa .hero-mark .escola{font-family:var(--font-sans);font-weight:800;letter-spacing:.34em;font-size:.78rem;color:var(--ink-soft);opacity:0;animation:fadeUp .8s var(--ease-organic) .2s forwards}
+  #capa .hero-mark img{height:clamp(48px,8.5vw,88px);width:auto;clip-path:inset(0 100% 0 0)}
+  #capa .hero-mark .w1{animation:writeOn 1.05s cubic-bezier(.6,.02,.2,1) .5s forwards}
+  #capa .hero-mark .w2{margin-top:-2px;animation:writeOn 1.2s cubic-bezier(.6,.02,.2,1) 1.4s forwards}
+  @keyframes writeOn{to{clip-path:inset(0 0 0 0)}}
+  /* escrita em loop (demo de motion) */
+  #motion .wl1,#motion .wl2{clip-path:inset(0 100% 0 0)}
+  #motion .wl1{animation:writeLoop 4.6s cubic-bezier(.6,.02,.2,1) infinite}
+  #motion .wl2{animation:writeLoop 4.6s cubic-bezier(.6,.02,.2,1) .6s infinite}
+  @keyframes writeLoop{0%{clip-path:inset(0 100% 0 0)}28%{clip-path:inset(0 0 0 0)}82%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
+  #capa .tag,#capa .lead,#capa .meta{opacity:0;animation:fadeUp 1s var(--ease-organic) forwards}
+  #capa .tag{animation-delay:2.7s}#capa .lead{animation-delay:2.95s}#capa .meta{animation-delay:3.2s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  /* pausado ou reduced-motion: mostra tudo escrito */
+  [data-motion="paused"] #capa .hero-mark img{clip-path:inset(0 0 0 0)!important}
+  [data-motion="paused"] #capa .tag,[data-motion="paused"] #capa .lead,[data-motion="paused"] #capa .meta,
+  [data-motion="paused"] #capa .escola{opacity:1!important}
+  @media (prefers-reduced-motion:reduce){
+    #capa .hero-mark img{clip-path:inset(0 0 0 0)!important}
+    #capa .tag,#capa .lead,#capa .meta,#capa .escola{opacity:1!important;animation:none!important}
+  }
+
+  /* pause control */
+  .motion-toggle{position:fixed;right:18px;bottom:18px;z-index:50;background:var(--ink);color:var(--bg);border:none;border-radius:var(--radius-pill);padding:10px 16px;font-family:var(--font-sans);font-weight:700;font-size:var(--fs-sm);cursor:pointer;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px}
+  .motion-toggle:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px}
+
+  /* swatches */
+  .pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:var(--space-3)}
+  .sw{border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface-2)}
+  .sw .chip{height:72px}.sw .info{padding:9px 11px}
+  .sw b{font-size:.82rem;display:block}.sw code{font-family:ui-monospace,monospace;font-size:.72rem;color:var(--ink-soft)}
+  .sw .fn{font-size:.7rem;color:var(--ink-mute);display:block;margin-top:2px}
+  .grouplbl{font-weight:800;letter-spacing:.04em;font-size:.78rem;text-transform:uppercase;color:var(--ink-mute);margin:var(--space-5) 0 var(--space-2)}
+
+  /* type specimens */
+  .spec{border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-5);background:var(--surface-2);margin-bottom:var(--space-3)}
+  .spec .role{font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+  .spec .fam{font-size:.8rem;color:var(--ink-soft);margin-bottom:14px}
+  .s-disp{font-family:var(--font-display);font-size:2.6rem;line-height:1.05}
+  .s-serif{font-family:var(--font-serif);font-weight:300;font-size:1.5rem;line-height:1.4;color:#5b4636}
+  .s-sans{font-family:var(--font-sans);font-size:1.05rem}
+  .s-num{font-family:var(--font-num);font-variant-numeric:tabular-nums;font-size:1.7rem}
+
+  /* do / dont */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
+  @media(max-width:620px){.dd{grid-template-columns:1fr}}
+  .do{border-left:3px solid var(--positive);background:var(--folha-100);border-radius:var(--radius-md);padding:var(--space-4)}
+  .dont{border-left:3px solid var(--danger);background:var(--accent-wash);border-radius:var(--radius-md);padding:var(--space-4)}
+  .do h4,.dont h4{font-size:var(--fs-sm);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+  .do h4{color:var(--support-ink)}.dont h4{color:var(--danger)}
+  .do ul,.dont ul{margin-left:18px;font-size:var(--fs-sm)}.do li,.dont li{margin-bottom:6px}
+
+  /* buttons (componentes) */
+  .btn{font-family:var(--font-sans);font-weight:700;font-size:var(--fs-sm);padding:11px 22px;border-radius:var(--radius-pill);border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform var(--dur-fast) var(--ease-grow),background var(--dur-fast),box-shadow var(--dur-fast)}
+  .btn:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px}
+  .btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:var(--shadow-sm)}
+  .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .btn-primary:active{background:var(--accent-press);transform:translateY(0)}
+  .btn-ghost{background:transparent;color:var(--accent);border:var(--border-w-strong) solid var(--accent)}
+  .btn-ghost:hover{background:var(--accent-wash)}
+
+  /* método diagram */
+  .ritmo{max-width:520px;margin:var(--space-5) auto}
+  .ritmo .petal{transform-origin:center;animation:grow var(--dur-ambient) var(--ease-organic) infinite}
+  @keyframes grow{0%,100%{opacity:.9}50%{opacity:1}}
+
+  /* backgrounds gallery */
+  .bgfam{height:170px;border-radius:var(--radius-lg);border:1px solid var(--border);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px}
+  .bgfam span{position:relative;font-size:var(--fs-xs);font-weight:700;background:rgba(250,247,242,.85);color:var(--ink);padding:4px 10px;border-radius:var(--radius-pill)}
+  .bg-hero{background:radial-gradient(110% 90% at 75% 15%,#F4DAD5,transparent 55%),radial-gradient(90% 90% at 15% 90%,#F0E3C8,transparent 55%),var(--linho)}
+  .bg-metodo{background:var(--argila);background-image:radial-gradient(var(--baga-300) 1.4px,transparent 1.5px);background-size:20px 20px;background-position:center}
+  .bg-doc{background:var(--linho);box-shadow:inset 0 0 0 1px var(--border)}
+  .bg-doc::after{content:"";position:absolute;inset:0;background-image:var(--paper-noise);opacity:.6}
+  .bg-selo{background:var(--terra-900)}
+  .bg-selo::before{content:"";position:absolute;right:-30px;bottom:-30px;width:170px;height:170px;background:var(--linho);opacity:.06;-webkit-mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat;mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat}
+  .bg-selo span{background:rgba(46,33,24,.7);color:var(--linho)}
+
+  /* aplicações */
+  .apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-4)}
+  .mock{border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface-2)}
+  .mock .head{font-size:var(--fs-xs);color:var(--ink-mute);padding:7px 11px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+  .mock .body{padding:var(--space-4);min-height:120px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-align:center}
+  .mock .li-dark{background:var(--terra-900);color:var(--linho)}
+  .mock .ig{background:radial-gradient(120% 90% at 70% 20%,#F4DAD5,transparent),var(--linho);aspect-ratio:1}
+  .mock .story{background:linear-gradient(170deg,#2E2118,#4A3525);color:var(--linho);aspect-ratio:9/16;max-height:240px}
+  .mini-wm{height:26px}.mini-wm.neg{filter:brightness(0) invert(1)}
+  .avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid var(--border)}
+  .sig{font-size:var(--fs-sm);text-align:left;width:100%}
+  .sig b{font-weight:800}.sig .role{color:var(--ink-soft);font-size:var(--fs-xs)}
+  .sig .line{height:2px;background:var(--accent);width:40px;margin:6px 0}
+
+  table.spec-t{width:100%;border-collapse:collapse;font-size:var(--fs-sm);margin-top:var(--space-3)}
+  table.spec-t th,table.spec-t td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border)}
+  table.spec-t th{font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-mute)}
+  table.spec-t code{font-family:ui-monospace,monospace;font-size:.78rem;color:var(--accent)}
+
+  .note{font-size:var(--fs-sm);color:var(--ink-soft);border-left:2px solid var(--baga-300);padding-left:14px;margin:var(--space-4) 0;max-width:72ch}
+  .anchor{position:relative;top:0}
+  footer{padding:var(--space-8) var(--space-10);color:var(--ink-mute);font-size:var(--fs-sm)}
+</style>
+</head>
+<body>
+<button class="motion-toggle" id="mtoggle" aria-pressed="false">⏸ Pausar animações</button>
+
+<div class="app">
+<!-- ===================== NAV ===================== -->
+<nav class="side" aria-label="Capítulos">
+  <div class="brand"><img src="assets/simbolo/ramo.svg" alt=""><b>Quintal Aroeira</b></div>
+  <a href="#capa"><span class="n">00</span>Capa</a>
+  <a href="#essencia"><span class="n">01</span>Essência</a>
+  <a href="#posicionamento"><span class="n">02</span>Posicionamento</a>
+  <a href="#logo"><span class="n">03</span>Logo &amp; assinaturas</a>
+  <a href="#cores"><span class="n">04</span>Cores</a>
+  <a href="#tipografia"><span class="n">05</span>Tipografia</a>
+  <a href="#motion"><span class="n">06</span>Motion</a>
+  <a href="#backgrounds"><span class="n">07</span>Backgrounds</a>
+  <a href="#metodo"><span class="n">08</span>O Ritmo Aroeira</a>
+  <a href="#voz"><span class="n">09</span>Voz da marca</a>
+  <a href="#aplicacoes"><span class="n">10</span>Aplicações</a>
+  <a href="#governanca"><span class="n">11</span>Governança</a>
+  <a href="#kit"><span class="n">12</span>Kit de arquivos</a>
+</nav>
+
+<main>
+<!-- ===================== 00 CAPA ===================== -->
+<section class="chap" id="capa">
+  <div class="blob b1 breathe"></div><div class="blob b2 breathe"></div><div class="blob b3 breathe"></div>
+  <div class="kicker">Brand Book · v1.0 · Junho 2026</div>
+  <div class="hero-mark" aria-label="Escola Waldorf Quintal Aroeira">
+    <span class="escola">ESCOLA WALDORF</span>
+    <img class="w1" src="assets/logo/word-quintal.png" alt="Quintal">
+    <img class="w2" src="assets/logo/word-aroeira.png" alt="Aroeira">
+  </div>
+  <p class="tag">Proteger o tempo da infância.</p>
+  <p class="lead">O manual vivo da identidade da Escola Waldorf Quintal Aroeira. Tudo o que a marca
+    diz antes de qualquer palavra — terra, fruto, gesto de mão e ritmo orgânico.</p>
+  <div class="meta">Escola Waldorf Quintal Aroeira · Bertioga/SP · documento de marca · uso interno e fornecedores</div>
+</section>
+
+<!-- ===================== 01 ESSÊNCIA ===================== -->
+<section class="chap" id="essencia">
+  <div class="kicker">01 · Essência</div>
+  <h2>A escola é uma extensão do quintal de casa</h2>
+  <p class="lead"><strong>Ideia central:</strong> aqui a infância não é apressada. A criança aprende no ritmo do
+    próprio corpo — mãos na terra, pão que cresce, aquarela que se espalha no papel úmido.</p>
+
+  <div class="grid cols-2" style="margin-top:var(--space-5)">
+    <div class="card"><h3 style="margin-top:0">Propósito</h3>
+      <p class="muted">Proteger o tempo da infância num mundo que quer acelerá-la. Oferecer um lugar onde
+        crescer tem estações, e cada estação é honrada.</p></div>
+    <div class="card"><h3 style="margin-top:0">Transformação</h3>
+      <p class="muted">A família chega buscando “uma escola”. Encontra uma comunidade que devolve à criança
+        o direito de ser criança — e aos pais, a confiança de que isso basta.</p></div>
+  </div>
+
+  <h3>Manifesto</h3>
+  <p class="lead">Não medimos a infância em provas. Medimos em raízes. Enquanto o mundo cobra pressa,
+    nós protegemos o tempo — porque o que cresce devagar, cresce inteiro.</p>
+
+  <h3>Princípios de marca</h3>
+  <div class="grid cols-2">
+    <div class="card"><span class="pill">01</span><h4 style="margin:10px 0 4px;font-family:var(--font-serif);font-weight:400;font-size:var(--fs-lg)">Ritmo antes de pressa</h4>
+      <p class="muted" style="margin:0">Cada peça respira. Espaço em branco, cadência calma, nada gritado. A forma comunica o ritmo que defendemos.</p></div>
+    <div class="card"><span class="pill">02</span><h4 style="margin:10px 0 4px;font-family:var(--font-serif);font-weight:400;font-size:var(--fs-lg)">Feito por mãos</h4>
+      <p class="muted" style="margin:0">Aquarela, traço, textura de papel. Tudo carrega marca de mão — nunca o brilho frio do sintético.</p></div>
+    <div class="card"><span class="pill">03</span><h4 style="margin:10px 0 4px;font-family:var(--font-serif);font-weight:400;font-size:var(--fs-lg)">Natureza como sala de aula</h4>
+      <p class="muted" style="margin:0">Terra, planta, luz de fim de tarde. A aroeira não é enfeite: é a própria pedagogia virando imagem.</p></div>
+    <div class="card"><span class="pill">04</span><h4 style="margin:10px 0 4px;font-family:var(--font-serif);font-weight:400;font-size:var(--fs-lg)">Calor sem ingenuidade</h4>
+      <p class="muted" style="margin:0">Acolhedor, mas sério. Antroposofia tem profundidade — a marca é quente e confiável, nunca infantilizada.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 02 POSICIONAMENTO ===================== -->
+<section class="chap" id="posicionamento">
+  <div class="kicker">02 · Posicionamento</div>
+  <h2>Quatro pilares</h2>
+  <table class="spec-t">
+    <tr><th>Pilar</th><th>Quintal Aroeira</th></tr>
+    <tr><td><strong>Para quem</strong></td><td>Famílias de Bertioga e região que querem uma infância protegida — que recusam a escola-fábrica e procuram sentido, natureza e comunidade.</td></tr>
+    <tr><td><strong>O que transforma</strong></td><td>A pressa de “sair na frente” vira confiança no tempo certo de cada criança.</td></tr>
+    <tr><td><strong>Como transforma</strong></td><td>Pedagogia Waldorf: livre brincar, ritmo, arte, natureza, ausência de competição e prova tradicional.</td></tr>
+    <tr><td><strong>Prova</strong></td><td>Crianças que florescem; famílias que viram comunidade; depoimentos reais de acolhimento e pertencimento.</td></tr>
+  </table>
+
+  <div class="grid cols-2" style="margin-top:var(--space-6)">
+    <div class="card"><h3 style="margin-top:0">Categoria</h3><p class="muted">Educação Infantil (Maternal e Jardim) e Fundamental I (até o 5º ano), pedagogia Waldorf, com oficinas de yoga, capoeira, circo, música, inglês e teatro.</p></div>
+    <div class="card"><h3 style="margin-top:0">Diferenciação</h3><p class="muted">Não é “escola alternativa colorida”. É terrosa, orgânica, séria na antroposofia — a marca parece o que a pedagogia promete.</p></div>
+  </div>
+
+  <div class="dd" style="margin-top:var(--space-5)">
+    <div class="do"><h4>A marca É</h4><ul>
+      <li>Terrosa, manual, calma</li><li>Acolhedora e adulta ao mesmo tempo</li>
+      <li>Conectada à natureza e ao tempo</li><li>Narrativa, poética, verdadeira</li></ul></div>
+    <div class="dont"><h4>A marca NÃO é</h4><ul>
+      <li>Corporativa, fria, “SaaS”</li><li>Creche neon / primárias saturadas</li>
+      <li>Apressada, gritada, promocional</li><li>Genérica ou com cara de IA</li></ul></div>
+  </div>
+  <p class="note"><strong>Anti-posicionamento:</strong> evitar a estética de escola bilíngue-tech, de franquia de educação,
+    e de qualquer comunicação que trate criança como cliente a ser convertido.</p>
+</section>
+
+<!-- ===================== 03 LOGO ===================== -->
+<section class="chap" id="logo">
+  <div class="kicker">03 · Logo &amp; assinaturas</div>
+  <h2>O nome tem raiz</h2>
+  <p class="lead">O wordmark manuscrito é <strong>intocável</strong> — estrutura e cor permanecem exatamente como são.
+    O que somamos: um símbolo próprio, nascido das bagas de aroeira que já viviam sobre os “i”.</p>
+
+  <div class="grid cols-3" style="margin-top:var(--space-5)">
+    <div class="card" style="text-align:center"><img src="assets/simbolo/ramo.svg" style="height:110px" alt=""><div class="muted" style="font-size:var(--fs-sm);margin-top:8px">Símbolo · ramo</div></div>
+    <div class="card" style="text-align:center"><img src="assets/logo/wordmark-cor.png" style="height:52px;margin-top:28px" alt=""><div class="muted" style="font-size:var(--fs-sm);margin-top:24px">Wordmark</div></div>
+    <div class="card" style="text-align:center"><img src="assets/simbolo/selo.svg" style="height:110px" alt=""><div class="muted" style="font-size:var(--fs-sm);margin-top:8px">Selo · avatar</div></div>
+  </div>
+  <h3>Duas versões oficiais do logo</h3>
+  <div class="grid cols-2">
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:var(--space-8) var(--space-6)">
+      <img src="assets/logo/wordmark-cor.png" style="height:56px" alt="Logo horizontal">
+      <div class="muted" style="font-size:var(--fs-sm)">Horizontal — uso padrão (header, documentos, e-mail)</div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:var(--space-8) var(--space-6)">
+      <span style="font-family:var(--font-sans);font-weight:800;letter-spacing:.32em;font-size:.72rem;color:var(--ink-soft)">ESCOLA WALDORF</span>
+      <img src="assets/logo/word-quintal.png" style="height:36px" alt="Quintal">
+      <img src="assets/logo/word-aroeira.png" style="height:36px;margin-top:-2px" alt="Aroeira">
+      <div class="muted" style="font-size:var(--fs-sm);margin-top:10px">Empilhado — avatar, redes sociais, espaços quadrados</div>
+    </div>
+  </div>
+  <p class="note">Assinaturas completas (lockups horizontal/vertical, claro/escuro/mono/sobre-baga, área de proteção,
+    tamanho mínimo e usos proibidos) na folha dedicada → <strong>03-assinaturas.html</strong>.</p>
+
+  <h3>Caixas cromáticas governadas</h3>
+  <div class="grid cols-2">
+    <div class="card" style="background:var(--linho)"><div class="grid" style="grid-template-columns:auto 1fr;gap:14px;align-items:center"><img src="assets/simbolo/ramo.svg" style="height:54px"><div><strong>Institucional · claro</strong><div class="muted" style="font-size:var(--fs-sm)">Sobre linho/argila. Uso padrão.</div></div></div></div>
+    <div class="card" style="background:var(--terra-900);color:var(--linho)"><div class="grid" style="grid-template-columns:auto 1fr;gap:14px;align-items:center"><span style="display:inline-block;width:54px;height:56px;background:var(--linho);-webkit-mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat;mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat"></span><div><strong>Editorial · escuro</strong><div style="font-size:var(--fs-sm);color:#C8B6A4">Terra escura. Negativa.</div></div></div></div>
+    <div class="card" style="background:var(--argila)"><div class="grid" style="grid-template-columns:auto 1fr;gap:14px;align-items:center"><span style="display:inline-block;width:54px;height:56px;background:var(--terra-700);-webkit-mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat;mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat"></span><div><strong>1 cor · técnica</strong><div class="muted" style="font-size:var(--fs-sm)">Carimbo, bordado, fax.</div></div></div></div>
+    <div class="card" style="background:var(--baga-500)"><div class="grid" style="grid-template-columns:auto 1fr;gap:14px;align-items:center"><span style="display:inline-block;width:54px;height:56px;background:var(--linho);-webkit-mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat;mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat"></span><div style="color:#FFF6F3"><strong style="color:#FFF6F3">Acento · excepcional</strong><div style="font-size:var(--fs-sm);color:#FFF6F3">Sobre baga. Só destaque.</div></div></div></div>
+  </div>
+</section>
+
+<!-- ===================== 04 CORES ===================== -->
+<section class="chap" id="cores">
+  <div class="kicker">04 · Sistema de cores</div>
+  <h2>Terra do logo + paleta viva de Goethe</h2>
+  <p class="lead">A base marrom + rosa do logo é lei. Ao redor, uma paleta da natureza e do círculo cromático de
+    Goethe — referência da própria pedagogia Waldorf.</p>
+
+  <div class="grouplbl">Terra · base do logo (inegociável)</div>
+  <div class="pal">
+    <div class="sw"><div class="chip" style="background:#4A3525"></div><div class="info"><b>Tinta</b><code>#4A3525</code><span class="fn">Texto · 60% da peça</span></div></div>
+    <div class="sw"><div class="chip" style="background:#8B6F58"></div><div class="info"><b>Casca</b><code>#8B6F58</code><span class="fn">Secundária · bordas</span></div></div>
+    <div class="sw"><div class="chip" style="background:#C25953"></div><div class="info"><b>Baga</b><code>#C25953</code><span class="fn">CTA · links · 10%</span></div></div>
+    <div class="sw"><div class="chip" style="background:#9E3F3A"></div><div class="info"><b>Baga funda</b><code>#9E3F3A</code><span class="fn">Pressed · alerta</span></div></div>
+    <div class="sw"><div class="chip" style="background:#E3A9A0"></div><div class="info"><b>Baga clara</b><code>#E3A9A0</code><span class="fn">Wash · hover</span></div></div>
+  </div>
+  <div class="grouplbl">Fundo orgânico · 30%</div>
+  <div class="pal">
+    <div class="sw"><div class="chip" style="background:#FAF7F2"></div><div class="info"><b>Linho</b><code>#FAF7F2</code><span class="fn">Fundo principal</span></div></div>
+    <div class="sw"><div class="chip" style="background:#F2EBE5"></div><div class="info"><b>Argila</b><code>#F2EBE5</code><span class="fn">Cards</span></div></div>
+    <div class="sw"><div class="chip" style="background:#E7DCD0"></div><div class="info"><b>Argila funda</b><code>#E7DCD0</code><span class="fn">Bordas</span></div></div>
+    <div class="sw"><div class="chip" style="background:#2E2118"></div><div class="info"><b>Terra escura</b><code>#2E2118</code><span class="fn">Dark editorial</span></div></div>
+  </div>
+  <div class="grouplbl">Folha · verde de Goethe</div>
+  <div class="pal">
+    <div class="sw"><div class="chip" style="background:#6E7E4E"></div><div class="info"><b>Folha</b><code>#6E7E4E</code><span class="fn">Sucesso · natureza</span></div></div>
+    <div class="sw"><div class="chip" style="background:#4C5836"></div><div class="info"><b>Musgo</b><code>#4C5836</code><span class="fn">Texto alt.</span></div></div>
+    <div class="sw"><div class="chip" style="background:#A9B488"></div><div class="info"><b>Folha clara</b><code>#A9B488</code><span class="fn">Badge · wash</span></div></div>
+  </div>
+  <div class="grouplbl">Luz &amp; céu · acentos pontuais</div>
+  <div class="pal">
+    <div class="sw"><div class="chip" style="background:#D9A85C"></div><div class="info"><b>Ocre</b><code>#D9A85C</code><span class="fn">Atenção · calor</span></div></div>
+    <div class="sw"><div class="chip" style="background:#E8C893"></div><div class="info"><b>Mel</b><code>#E8C893</code><span class="fn">Wash quente</span></div></div>
+    <div class="sw"><div class="chip" style="background:#6E8CA0"></div><div class="info"><b>Céu</b><code>#6E8CA0</code><span class="fn">Info · excepcional</span></div></div>
+  </div>
+
+  <h3>Contraste &amp; proporção</h3>
+  <table class="spec-t">
+    <tr><th>Combinação</th><th>Uso</th><th>Contraste</th></tr>
+    <tr><td>Tinta sobre Linho</td><td>Texto corrido</td><td><span class="pill">AAA · 9.8:1</span></td></tr>
+    <tr><td>Branco sobre Baga</td><td>Botão / CTA (texto ≥16px)</td><td><span class="pill" style="background:var(--ocre-300);color:var(--terra-700)">AA-large · 3.6:1</span></td></tr>
+    <tr><td>Musgo sobre Folha clara</td><td>Badge</td><td><span class="pill">AA · 4.7:1</span></td></tr>
+    <tr><td>Linho sobre Terra escura</td><td>Dark editorial</td><td><span class="pill">AAA · 12:1</span></td></tr>
+  </table>
+  <p class="note">❌ Proibido: preto puro (#000), branco cirúrgico (#FFF), neon, primárias saturadas. O azul-céu é o
+    único frio permitido e só como acento. Regra 60/30/10: terra/fundo · neutros · baga.</p>
+</section>
+
+<!-- ===================== 05 TIPOGRAFIA ===================== -->
+<section class="chap" id="tipografia">
+  <div class="kicker">05 · Tipografia</div>
+  <h2>Três vozes, uma escola</h2>
+  <div class="spec"><div class="role">Voz poética · display</div><div class="fam">Antropos — capa, títulos institucionais, citações. Fonte oficial Waldorf (Lutz Baar). Só em tamanhos grandes.</div><div class="s-disp">Proteger o tempo da infância</div></div>
+  <div class="spec"><div class="role">Voz editorial · narrativa</div><div class="fam">Fraunces — e-book, propostas, textos longos de marca. Serifa orgânica com personalidade.</div><div class="s-serif">Com as mãos na terra, o pão que cresce e a aquarela que se espalha no papel úmido.</div></div>
+  <div class="spec"><div class="role">Voz operacional · interface</div><div class="fam">Mulish — site, botões, formulários, secretaria. Humanista, legível. Lato como fallback.</div><div class="s-sans">Agendar visita · Maternal e Jardim · Fundamental I até o 5º ano · Oficinas de circo, música e teatro.</div></div>
+  <div class="spec"><div class="role">Voz de evidência · números</div><div class="fam">Fraunces tabular — datas, valores, métricas.</div><div class="s-num">2026 · 08h–12h · 5º ano · R$ 0,00 · 1.080×1.920</div></div>
+
+  <h3>Escala tipográfica</h3>
+  <table class="spec-t">
+    <tr><th>Token</th><th>Tamanho</th><th>Line-height</th><th>Uso</th></tr>
+    <tr><td><code>--fs-5xl</code></td><td>64px</td><td>1.08</td><td>Capa / hero (Antropos)</td></tr>
+    <tr><td><code>--fs-3xl</code></td><td>36px</td><td>1.25</td><td>Título de capítulo (Fraunces)</td></tr>
+    <tr><td><code>--fs-lg</code></td><td>18px</td><td>1.75</td><td>Lead / leitura longa</td></tr>
+    <tr><td><code>--fs-base</code></td><td>16px</td><td>1.6</td><td>Corpo (Mulish)</td></tr>
+    <tr><td><code>--fs-sm</code></td><td>14px</td><td>1.6</td><td>UI · captions</td></tr>
+  </table>
+  <p class="note">Antropos é freeware “não para uso comercial”. Para a escola (fim cultural) tende a servir;
+    em material pago, confirmar licença com waldorf.se ou converter títulos em curva (SVG). Ver Governança.</p>
+</section>
+
+<!-- ===================== 06 MOTION ===================== -->
+<section class="chap" id="motion">
+  <div class="kicker">06 · Motion</div>
+  <h2>O movimento explica — nunca decora</h2>
+  <p class="lead">Tudo entra com coreografia e segue em loop interno discreto, no tempo da respiração. Use o botão
+    flutuante para pausar. Respeita <code>prefers-reduced-motion</code> automaticamente.</p>
+
+  <div class="grid cols-2" style="margin-top:var(--space-5)">
+    <div class="card"><h3 style="margin-top:0">1 · Ambiente</h3>
+      <div style="height:90px;display:flex;align-items:center;justify-content:center"><img class="float" src="assets/simbolo/ramo.svg" style="height:80px"></div>
+      <p class="muted" style="font-size:var(--fs-sm)">Ramo que balança como planta ao vento leve — pivô na base, 11s, assimétrico. Respira, não flutua.</p></div>
+    <div class="card"><h3 style="margin-top:0">2 · Escrita da marca</h3>
+      <div style="height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px">
+        <img class="wl1" src="assets/logo/word-quintal.png" style="height:26px" alt="Quintal">
+        <img class="wl2" src="assets/logo/word-aroeira.png" style="height:26px" alt="Aroeira"></div>
+      <p class="muted" style="font-size:var(--fs-sm)">A assinatura se <strong>escreve à mão</strong> — reveal esquerda→direita, Quintal e depois Aroeira. A entrada da marca em capas e aberturas.</p></div>
+    <div class="card"><h3 style="margin-top:0">3 · Interação</h3>
+      <div style="height:90px;display:flex;align-items:center;justify-content:center;gap:12px"><a class="btn btn-primary">Agendar visita</a><a class="btn btn-ghost">Saiba mais</a></div>
+      <p class="muted" style="font-size:var(--fs-sm)">Hover: sobe 2px + sombra. Press: desce. 160ms. Passe o mouse.</p></div>
+    <div class="card"><h3 style="margin-top:0">4 · Narrativa</h3>
+      <div style="height:90px;display:flex;align-items:center;justify-content:center"><div class="breathe" style="width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#E8A39A,#9E3F3A)"></div></div>
+      <p class="muted" style="font-size:var(--fs-sm)">Aquarela que respira em fundos hero. Escala+opacidade, 8s. Conta o ritmo orgânico.</p></div>
+  </div>
+  <table class="spec-t">
+    <tr><th>Token</th><th>Valor</th><th>Onde</th></tr>
+    <tr><td><code>--dur-fast</code></td><td>160ms</td><td>Hover, press, foco</td></tr>
+    <tr><td><code>--dur-base</code></td><td>280ms</td><td>Entrada de componente, modal</td></tr>
+    <tr><td><code>--dur-slow</code></td><td>560ms</td><td>“Brotar”, transição de seção</td></tr>
+    <tr><td><code>--ease-organic</code></td><td>cubic-bezier(.22,.61,.36,1)</td><td>Ambiente, narrativa</td></tr>
+    <tr><td><code>--ease-grow</code></td><td>cubic-bezier(.34,1.3,.64,1)</td><td>Baga que brota (overshoot)</td></tr>
+  </table>
+  <div class="dd" style="margin-top:var(--space-4)">
+    <div class="do"><h4>Pode mover</h4><ul><li>Wordmark: só a <strong>escrita</strong> (reveal de entrada)</li><li>Ramo que balança · aquarela que respira</li><li>Entrada de seção/botão</li></ul></div>
+    <div class="dont"><h4>Não pode mover</h4><ul><li>Wordmark: nunca distorce, estica, gira ou pisca</li><li>Texto corrido</li><li>Nada mecânico, em mola dura ou piscante</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== 07 BACKGROUNDS ===================== -->
+<section class="chap" id="backgrounds">
+  <div class="kicker">07 · Backgrounds</div>
+  <h2>Quatro famílias proprietárias</h2>
+  <p class="lead">Todas nascem da lógica da marca — aquarela, terra e símbolo. Nenhuma é efeito genérico.</p>
+  <div class="grid cols-2" style="margin-top:var(--space-5)">
+    <div><div class="bgfam bg-hero breathe-bg"><span>Hero · transformação</span></div><p class="muted" style="font-size:var(--fs-sm);margin-top:8px">Aquarela quente que respira. Capa, hero do site, abertura de e-book.</p></div>
+    <div><div class="bgfam bg-metodo"><span>Método · processo</span></div><p class="muted" style="font-size:var(--fs-sm);margin-top:8px">Trama de bagas pontilhada. Seções de passo a passo, diagramas.</p></div>
+    <div><div class="bgfam bg-doc"><span>Documento · evidência</span></div><p class="muted" style="font-size:var(--fs-sm);margin-top:8px">Linho com textura de papel. Propostas, fichas, leitura longa.</p></div>
+    <div><div class="bgfam bg-selo"><span>Selo · governança</span></div><p class="muted" style="font-size:var(--fs-sm);margin-top:8px">Terra escura com o símbolo em marca d'água. Encerramentos, capas institucionais.</p></div>
+  </div>
+  <p class="note">Densidade: o conteúdo sempre domina; o fundo nunca passa de ~12% de presença visual. Contraste do texto
+    sobre fundo sempre ≥ AA.</p>
+</section>
+
+<!-- ===================== 08 MÉTODO ===================== -->
+<section class="chap" id="metodo">
+  <div class="kicker">08 · Sistema proprietário</div>
+  <h2>O Ritmo Aroeira</h2>
+  <p class="lead">A jornada de uma criança (e de uma família) na escola, desenhada como o ciclo de uma planta —
+    do acolhimento ao pertencimento, em ritmo, não em etapas apressadas.</p>
+
+  <div class="ritmo">
+    <svg viewBox="0 0 360 360" role="img" aria-label="Diagrama O Ritmo Aroeira: Acolher, Vivenciar, Criar, Pertencer em ciclo">
+      <defs><radialGradient id="rb" cx="38%" cy="32%" r="72%"><stop offset="0" stop-color="#E8A39A"/><stop offset=".5" stop-color="#C25953"/><stop offset="1" stop-color="#9E3F3A"/></radialGradient></defs>
+      <circle cx="180" cy="180" r="120" fill="none" stroke="#E7DCD0" stroke-width="2" stroke-dasharray="3 7"/>
+      <!-- 4 pétalas/fases -->
+      <g font-family="Mulish, sans-serif">
+        <g class="petal"><circle cx="180" cy="60" r="30" fill="url(#rb)"/><text x="180" y="65" text-anchor="middle" fill="#FFF6F3" font-weight="800" font-size="13">Acolher</text></g>
+        <g class="petal" style="animation-delay:1.5s"><circle cx="300" cy="180" r="30" fill="#6E7E4E"/><text x="300" y="185" text-anchor="middle" fill="#fff" font-weight="800" font-size="12">Vivenciar</text></g>
+        <g class="petal" style="animation-delay:3s"><circle cx="180" cy="300" r="30" fill="#D9A85C"/><text x="180" y="305" text-anchor="middle" fill="#4A3525" font-weight="800" font-size="14">Criar</text></g>
+        <g class="petal" style="animation-delay:4.5s"><circle cx="60" cy="180" r="30" fill="#8B6F58"/><text x="60" y="185" text-anchor="middle" fill="#fff" font-weight="800" font-size="12">Pertencer</text></g>
+      </g>
+      <!-- centro: bagas + texto -->
+      <g><circle cx="172" cy="150" r="7" fill="url(#rb)"/><circle cx="186" cy="152" r="7.6" fill="url(#rb)"/><circle cx="179" cy="162" r="7.2" fill="url(#rb)"/></g>
+      <text x="180" y="186" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" fill="#8B6F58" font-size="15">no ritmo</text>
+      <text x="180" y="196" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" fill="#8B6F58" font-size="15">da criança</text>
+    </svg>
+  </div>
+  <div class="grid cols-2">
+    <div class="card"><strong style="color:var(--accent)">Acolher</strong><p class="muted" style="margin:4px 0 0;font-size:var(--fs-sm)">Portas Abertas, visita sensorial, primeiro contato humano. A família é recebida, não convertida.</p></div>
+    <div class="card"><strong style="color:var(--support)">Vivenciar</strong><p class="muted" style="margin:4px 0 0;font-size:var(--fs-sm)">O dia a dia: brincar livre, natureza, arte, ritmo. A criança experimenta antes de “aprender”.</p></div>
+    <div class="card"><strong style="color:var(--warning)">Criar</strong><p class="muted" style="margin:4px 0 0;font-size:var(--fs-sm)">Aquarela, pão, música, teatro. O fazer com as mãos consolida o aprendizado.</p></div>
+    <div class="card"><strong style="color:var(--ink-soft)">Pertencer</strong><p class="muted" style="margin:4px 0 0;font-size:var(--fs-sm)">A família vira comunidade. Comissões, festas, calendário — o ciclo recomeça e se aprofunda.</p></div>
+  </div>
+</section>
+
+<!-- ===================== 09 VOZ ===================== -->
+<section class="chap" id="voz">
+  <div class="kicker">09 · Voz da marca</div>
+  <h2>Como a Aroeira fala</h2>
+  <p class="lead">Voz de mãe sábia, não de vendedor. Calorosa, pausada, concreta. Conta histórias e mostra,
+    em vez de prometer. Português brasileiro, sempre acentuado, sem jargão.</p>
+  <div class="grid cols-3" style="margin-top:var(--space-4)">
+    <div class="card"><h3 style="margin-top:0">Registro</h3><p class="muted" style="margin:0;font-size:var(--fs-sm)">Próximo e adulto. Trata a família como gente que pensa, não como lead.</p></div>
+    <div class="card"><h3 style="margin-top:0">Ritmo</h3><p class="muted" style="margin:0;font-size:var(--fs-sm)">Frases curtas, respiradas. Espaço entre ideias. Nunca apressado.</p></div>
+    <div class="card"><h3 style="margin-top:0">Vocabulário</h3><p class="muted" style="margin:0;font-size:var(--fs-sm)">Ritmo, raiz, quintal, infância, tempo, mãos, terra, acolher, florescer.</p></div>
+  </div>
+  <div class="dd" style="margin-top:var(--space-5)">
+    <div class="do"><h4>Fazer</h4><ul>
+      <li>“Aqui a infância tem o tempo que merece.”</li>
+      <li>“Venha sentir o ritmo da escola num sábado de manhã.”</li>
+      <li>“As mãos na terra ensinam o que a pressa não alcança.”</li></ul></div>
+    <div class="dont"><h4>Evitar</h4><ul>
+      <li>“A MELHOR escola da região!” (hype)</li>
+      <li>“Matrículas abertas — vagas limitadas!!!” (pressão)</li>
+      <li>“Educação inovadora e disruptiva” (clichê de setor)</li></ul></div>
+  </div>
+  <table class="spec-t">
+    <tr><th>Contexto</th><th>Tom</th></tr>
+    <tr><td>Institucional (site, e-book)</td><td>Narrativo, poético, profundo</td></tr>
+    <tr><td>Comercial (LP, follow-up)</td><td>Acolhedor, claro, sem pressão — convida, não empurra</td></tr>
+    <tr><td>Redes sociais</td><td>Cenas reais do cotidiano; legenda curta que mostra, não anuncia</td></tr>
+  </table>
+</section>
+
+<!-- ===================== 10 APLICAÇÕES ===================== -->
+<section class="chap" id="aplicacoes">
+  <div class="kicker">10 · Aplicações</div>
+  <h2>A marca no mundo</h2>
+  <p class="lead">Avatar = o <strong>wordmark empilhado</strong>, a identidade que a comunidade já reconhece no @quintalaroeira.
+    Nos posts entra a fotografia real da escola; aqui mostramos a estrutura de cada peça.</p>
+  <div class="apps">
+    <div class="mock"><div class="head"><span>LinkedIn · claro</span><span>1584×396</span></div><div class="body bg-hero"><img class="mini-wm" src="assets/logo/wordmark-cor.png"><span class="muted" style="font-size:var(--fs-xs)">Proteger o tempo da infância</span></div></div>
+    <div class="mock"><div class="head"><span>LinkedIn · escuro</span><span>1584×396</span></div><div class="body li-dark"><img class="mini-wm neg" src="assets/logo/wordmark-cor.png"></div></div>
+    <div class="mock"><div class="head"><span>Avatar · perfil</span><span>400²</span></div><div class="body" style="gap:1px;background:var(--argila)"><img src="assets/logo/word-quintal.png" style="height:20px"><img src="assets/logo/word-aroeira.png" style="height:20px;margin-top:-1px"></div></div>
+    <div class="mock"><div class="head"><span>Avatar · escuro</span><span>400²</span></div><div class="body li-dark" style="gap:1px"><img src="assets/logo/word-quintal.png" style="height:20px;filter:brightness(0) invert(1)"><img src="assets/logo/word-aroeira.png" style="height:20px;margin-top:-1px;filter:brightness(0) invert(1)"></div></div>
+    <div class="mock"><div class="head"><span>Instagram Feed</span><span>1080²</span></div><div class="body ig"><img src="assets/simbolo/ramo.svg" style="height:54px"><span style="font-family:var(--font-display);font-size:1.3rem">Portas Abertas</span></div></div>
+    <div class="mock"><div class="head"><span>Story / Reels</span><span>1080×1920</span></div><div class="body story"><img src="assets/simbolo/ramo.svg" style="height:44px;filter:brightness(0) invert(1)"><span style="font-family:var(--font-serif);font-style:italic">os ritmos da infância</span></div></div>
+    <div class="mock"><div class="head"><span>WhatsApp Business</span><span>perfil</span></div><div class="body" style="gap:1px"><img src="assets/logo/word-quintal.png" style="height:18px"><img src="assets/logo/word-aroeira.png" style="height:18px;margin-top:-1px"><span class="muted" style="font-size:var(--fs-xs);margin-top:6px">capa: foto do espaço</span></div></div>
+    <div class="mock"><div class="head"><span>Assinatura de e-mail</span><span>—</span></div><div class="body" style="align-items:flex-start"><div class="sig"><img class="mini-wm" src="assets/logo/wordmark-cor.png" style="height:22px"><div class="line"></div><b>Secretaria Aroeira</b><div class="role">Atendimento às famílias</div></div></div></div>
+    <div class="mock"><div class="head"><span>Favicon</span><span>16–32px</span></div><div class="body" style="flex-direction:row;gap:16px"><img src="assets/simbolo/favicon.svg" style="height:32px"><img src="assets/simbolo/favicon.svg" style="height:16px"></div></div>
+    <div class="mock"><div class="head"><span>Voucher de evento</span><span>—</span></div><div class="body bg-metodo"><span class="pill" style="background:var(--ocre-300);color:var(--terra-700)">Bazar de Natal</span><img src="assets/simbolo/ramo.svg" style="height:40px"></div></div>
+    <div class="mock"><div class="head"><span>Camiseta comissão</span><span>peito</span></div><div class="body li-dark"><span style="width:40px;height:44px;background:var(--linho);-webkit-mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat;mask:url('assets/simbolo/ramo-mono.svg') center/contain no-repeat"></span><span style="font-size:var(--fs-xs);color:#C8B6A4">tom terroso, algodão</span></div></div>
+    <div class="mock"><div class="head"><span>Cartão de visita</span><span>fosco</span></div><div class="body bg-doc"><img class="mini-wm" src="assets/logo/wordmark-cor.png" style="height:22px"><span class="muted" style="font-size:var(--fs-xs)">papel semente · off-white</span></div></div>
+    <div class="mock"><div class="head"><span>Capa de e-book</span><span>A4</span></div><div class="body" style="background:linear-gradient(160deg,#2E2118,#4A3525);color:var(--linho)"><span style="font-family:var(--font-serif);color:var(--ocre-300);font-size:1.1rem">Os ritmos da infância</span><img src="assets/simbolo/ramo.svg" style="height:34px;filter:brightness(0) invert(1)"></div></div>
+    <div class="mock"><div class="head"><span>Template apresentação</span><span>16:9</span></div><div class="body bg-hero"><img class="mini-wm" src="assets/logo/wordmark-cor.png" style="height:20px"><span class="muted" style="font-size:var(--fs-xs)">título Antropos · corpo Mulish</span></div></div>
+  </div>
+  <p class="note">Avatar = wordmark empilhado. Fotografia: luz natural, crianças em atividade real (circo, arte, terra),
+    nunca posadas — como já é o feed @quintalaroeira.</p>
+</section>
+
+<!-- ===================== 11 GOVERNANÇA ===================== -->
+<section class="chap" id="governanca">
+  <div class="kicker">11 · Governança</div>
+  <h2>O que mantém a marca fiel</h2>
+  <div class="grid cols-2">
+    <div class="card"><h3 style="margin-top:0">1 · Usar</h3><ul class="muted" style="margin-left:18px;font-size:var(--fs-sm)"><li>Logo sempre com área de proteção e em fundo da paleta</li><li>Wordmark + selo do ramo como marcas oficiais</li><li>Tokens do <code>tokens.css</code> como fonte única</li></ul></div>
+    <div class="card"><h3 style="margin-top:0">2 · Não usar</h3><ul class="muted" style="margin-left:18px;font-size:var(--fs-sm)"><li>Distorcer, rotacionar, recolorir ou sombrear o logo</li><li>Cores fora da paleta (em especial o azul genérico do site atual)</li><li>Fontes do sistema no lugar das oficiais</li></ul></div>
+    <div class="card"><h3 style="margin-top:0">3 · Acessibilidade</h3><ul class="muted" style="margin-left:18px;font-size:var(--fs-sm)"><li>Contraste de texto ≥ WCAG 2.2 AA</li><li>Foco visível (anel baga 3px)</li><li>Área de toque ≥ 44px · funciona sem animação</li></ul></div>
+    <div class="card"><h3 style="margin-top:0">4 · Cuidados legais</h3><ul class="muted" style="margin-left:18px;font-size:var(--fs-sm)"><li>Antropos: freeware “não-comercial” → confirmar licença p/ material pago ou converter em curva</li><li>Depoimentos: só com autorização das famílias (LGPD)</li><li>Claims sempre verificáveis</li></ul></div>
+    <div class="card"><h3 style="margin-top:0">5 · Fidelidade</h3><ul class="muted" style="margin-left:18px;font-size:var(--fs-sm)"><li>Logo permanece idêntico — estrutura e cor intocadas</li><li>Toda peça passa pelo crivo: “tem cara de IA?” → refazer</li><li>Orgânico-humano &gt; polido-genérico</li></ul></div>
+    <div class="card"><h3 style="margin-top:0">6 · Evolução</h3><ul class="muted" style="margin-left:18px;font-size:var(--fs-sm)"><li>Oficial vs experimental sempre rotulado</li><li>Novo asset → adicionar ao kit + versionar tokens</li><li>Aprovação do responsável de marca antes de publicar</li></ul></div>
+  </div>
+  <p class="note"><strong>Ação prioritária de fidelidade:</strong> trocar o logo do site (hoje um banner azul genérico de template)
+    pelo logo real da escola. É a maior deriva ativa da marca.</p>
+</section>
+
+<!-- ===================== 12 KIT ===================== -->
+<section class="chap" id="kit">
+  <div class="kicker">12 · Kit de arquivos</div>
+  <h2>Tudo o que sai daqui</h2>
+  <table class="spec-t">
+    <tr><th>Arquivo</th><th>O que é</th><th>Status</th></tr>
+    <tr><td><code>brandbook.html</code></td><td>Este manual navegável</td><td><span class="pill">pronto</span></td></tr>
+    <tr><td><code>tokens.css</code></td><td>Design tokens (fonte única)</td><td><span class="pill">pronto</span></td></tr>
+    <tr><td><code>02-direcao-visual.html</code></td><td>Direção (símbolo/paleta/tipo)</td><td><span class="pill">pronto</span></td></tr>
+    <tr><td><code>03-assinaturas.html</code></td><td>Lockups + usos do logo</td><td><span class="pill">pronto</span></td></tr>
+    <tr><td><code>assets/simbolo/*.svg</code></td><td>Ramo · selo · favicon · mono</td><td><span class="pill">pronto</span></td></tr>
+    <tr><td><code>assets/fonts/antropos.ttf</code></td><td>Fonte oficial embarcada</td><td><span class="pill">pronto</span></td></tr>
+    <tr><td><code>assets/logo/wordmark-cor.png</code></td><td>Wordmark (raster, intocado)</td><td><span class="pill" style="background:var(--ocre-300);color:var(--terra-700)">raster</span></td></tr>
+    <tr><td>Aplicações sociais exportadas</td><td>LinkedIn, IG, story, avatar…</td><td><span class="pill" style="background:var(--accent-wash);color:var(--danger)">a exportar</span></td></tr>
+    <tr><td>Relatório de acessibilidade + auditoria</td><td>Contraste, WCAG, inventário</td><td><span class="pill" style="background:var(--accent-wash);color:var(--danger)">próximo</span></td></tr>
+    <tr><td>ZIP final</td><td>Pasta completa empacotada</td><td><span class="pill" style="background:var(--accent-wash);color:var(--danger)">próximo</span></td></tr>
+  </table>
+  <p class="note">Pendência herdada: vetorizar o wordmark exige a fonte do script ou o arquivo editável original.
+    Enquanto não houver, o nome permanece em PNG de alta (estrutura e cor preservadas, conforme decisão).</p>
+</section>
+
+<footer>
+  Quintal Aroeira · Brand Book v1.0 · Junho 2026 · Escola Waldorf Quintal Aroeira, Bertioga/SP.<br>
+  Construído sobre <code>tokens.css</code>. Orgânico, feito por mãos — nunca por máquina.
+</footer>
+</main>
+</div>
+
+<style>
+  .brotar{animation:brotar var(--dur-slow) var(--ease-grow) both;animation-iteration-count:1}
+  @keyframes brotar{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+  .breathe-bg{animation:bbg calc(var(--dur-ambient) + 2s) ease-in-out infinite}
+  @keyframes bbg{0%,100%{filter:saturate(1)}50%{filter:saturate(1.15) brightness(1.02)}}
+
+  /* ===================== DE-ENGESSAR — orgânico, menos caixa ===================== */
+  /* seções sem linha reta — divisor de bagas no lugar da borda */
+  main .chap{border-bottom:none !important}
+  main .chap:not(#capa){position:relative;overflow:hidden}
+  main .chap:not(#capa)::before{
+    content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);
+    width:58px;height:14px;opacity:.85;pointer-events:none;
+    background:
+      radial-gradient(circle 3.5px at 13px 8px,var(--baga-300) 62%,transparent 64%),
+      radial-gradient(circle 4.5px at 29px 6px,var(--baga-500) 62%,transparent 64%),
+      radial-gradient(circle 3.5px at 45px 9px,var(--baga-300) 62%,transparent 64%);
+  }
+  /* cards: sem borda dura → wash macio com cantos orgânicos irregulares */
+  main .card{
+    border:none !important;
+    background:linear-gradient(165deg,color-mix(in srgb,var(--surface) 82%,transparent),color-mix(in srgb,var(--surface) 28%,transparent));
+    box-shadow:0 1px 0 rgba(74,53,37,.03);
+    border-radius:22px 28px 22px 30px / 28px 22px 30px 22px;
+  }
+  /* assimetria "colocado à mão" */
+  main .grid.cols-2>.card:nth-child(odd){transform:rotate(-.5deg)}
+  main .grid.cols-2>.card:nth-child(even){transform:rotate(.5deg) translateY(8px)}
+  main .grid.cols-3>.card:nth-child(3n+2){transform:translateY(12px)}
+  main .grid{gap:var(--space-5) var(--space-6)}
+  /* washes de aquarela por capítulo (ritmo cromático) */
+  #essencia,#motion,#aplicacoes{background:
+    radial-gradient(70% 52% at 90% 6%,color-mix(in srgb,var(--baga-300) 20%,transparent),transparent 58%),
+    radial-gradient(62% 46% at 4% 96%,color-mix(in srgb,var(--ocre-300) 20%,transparent),transparent 58%)}
+  #posicionamento,#tipografia,#governanca{background:
+    radial-gradient(66% 48% at 94% 94%,color-mix(in srgb,var(--folha-300) 18%,transparent),transparent 60%)}
+  #cores,#backgrounds,#metodo,#voz{background:
+    radial-gradient(60% 42% at 8% 5%,color-mix(in srgb,var(--mel) 24%,transparent),transparent 58%)}
+  /* títulos maiores, leads que respiram */
+  main h2{font-size:clamp(1.9rem,3.4vw,2.8rem)}
+  main p.lead{font-size:clamp(1.12rem,1.6vw,1.32rem);max-width:60ch}
+  /* swatches e specs: cantos orgânicos, sem borda dura */
+  main .sw{border:none;border-radius:14px 17px 14px 18px;box-shadow:0 1px 2px rgba(74,53,37,.05)}
+  main .spec{border:none;background:color-mix(in srgb,var(--surface) 55%,transparent);border-radius:18px 22px 18px 24px}
+  /* tabelas menos "planilha" */
+  main table.spec-t th,main table.spec-t td{border-bottom:1px solid color-mix(in srgb,var(--border) 55%,transparent)}
+  main table.spec-t tr:hover td{background:color-mix(in srgb,var(--accent-wash) 45%,transparent)}
+  /* selo/símbolo nos cards de elementos isolados respiram mais */
+  main #logo .card{padding:var(--space-6)}
+</style>
+<script>
+  const t=document.getElementById('mtoggle');
+  t.addEventListener('click',()=>{
+    const on=document.body.getAttribute('data-motion')==='paused';
+    document.body.setAttribute('data-motion',on?'running':'paused');
+    t.setAttribute('aria-pressed',String(!on));
+    t.textContent=on?'⏸ Pausar animações':'▶ Retomar animações';
+  });
+  // respeita preferência do sistema na carga
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.body.setAttribute('data-motion','paused');
+    t.textContent='▶ Retomar animações';t.setAttribute('aria-pressed','true');
+  }
+</script>
+</body>
+</html>
